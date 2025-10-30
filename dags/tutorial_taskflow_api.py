@@ -21,7 +21,9 @@ def tutorial_taskflow_api():
     located
     [here](https://airflow.apache.org/docs/apache-airflow/stable/tutorial_taskflow_api.html)
     """
-    @task()
+    @task(
+        retries=3,
+    )
     def extract():
         """
         #### Extract task
@@ -48,7 +50,9 @@ def tutorial_taskflow_api():
 
         return {"total_order_value": total_order_value}
 
-    @task()
+    @task(
+        retries=3,
+    )
     def load(total_order_value: float):
         """
         #### Load task
@@ -56,9 +60,11 @@ def tutorial_taskflow_api():
         instead of saving it to end user review, just prints it out.
         """
 
+        print('Hello World')
         print(f"Total order value is: {total_order_value:.2f}")
+
     order_data = extract()
     order_summary = transform(order_data)
     load(order_summary["total_order_value"])
-    
+
 tutorial_taskflow_api()
