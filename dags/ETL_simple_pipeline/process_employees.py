@@ -3,8 +3,7 @@
 import datetime, pendulum
 import os
 import requests
-from pathlib import Path
-from utils import BASE_DIR, SQL_DIR, load_sql
+from ETL_simple_pipeline.utils import BASE_DIR, SQL_DIR, load_sql
 
 from airflow.sdk import dag, task
 from airflow.providers.postgres.hooks.postgres import PostgresHook
@@ -28,14 +27,14 @@ def ProcessEmployees():
     create_employees_table = SQLExecuteQueryOperator(
         task_id='create_employees_table',
         conn_id='tutorial_pg_connect',
-        sql=load_sql(create_employees_table_file)
+        sql=load_sql(SQL_DIR / create_employees_table_file)
     )
 
     # Create the stage employee table
     create_employees_temp_table = SQLExecuteQueryOperator(
         task_id='create_employees_temp_table',
         conn_id='tutorial_pg_connect',
-        sql=load_sql(create_employees_temp_table_file)
+        sql=load_sql(SQL_DIR / create_employees_temp_table_file)
     )
 
     # Next, we’ll download a CSV file, save it locally, and load it into employees_temp using the PostgresHook.
@@ -71,7 +70,7 @@ def ProcessEmployees():
 
     @task
     def merge_data():
-        query = load_sql(merge_into_employees_file)
+        query = load_sql(SQL_DIR / merge_into_employees_file)
         try:
             postgres_hook = PostgresHook(postgres_conn_id="tutorial_pg_connect")
             conn = postgres_hook.get_conn()
