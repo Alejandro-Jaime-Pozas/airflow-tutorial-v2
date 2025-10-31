@@ -12,7 +12,7 @@
 # Cleans the data and upserts it into a target table
 
 from pathlib import Path
-from utils import BASE_DIR, SQL_DIR
+from utils import BASE_DIR, SQL_DIR, load_sql
 
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
 
@@ -20,11 +20,6 @@ from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
 # Define sql file names
 create_employees_table = 'create_employees_table.sql'
 create_employees_temp_table = 'create_employees_temp_table.sql'
-
-# Helper fn to load sql files
-def load_sql(file_name):
-    with open(SQL_DIR / file_name, 'r') as f:
-        return f.read()
 
 create_employees_table = SQLExecuteQueryOperator(
     task_id='create_employees_table',
