@@ -11,18 +11,15 @@
 
 # Cleans the data and upserts it into a target table
 
+from pathlib import Path
+from utils import BASE_DIR, SQL_DIR
 
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
 
-from pathlib import Path
 
 # Define sql file names
 create_employees_table = 'create_employees_table.sql'
 create_employees_temp_table = 'create_employees_temp_table.sql'
-
-# Define base dir for sql files
-BASE_DIR = Path(__file__).parent.resolve()
-SQL_DIR = BASE_DIR / 'sql_files'
 
 # Helper fn to load sql files
 def load_sql(file_name):
