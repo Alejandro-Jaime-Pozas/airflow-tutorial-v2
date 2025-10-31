@@ -1,3 +1,13 @@
+# Sensors wait for external conditions before proceeding.
+
+# They’re a lightweight way to model dependencies outside Airflow.
+
+# @task.sensor makes it simple to define them as Python functions.
+
+# They support both poke (blocking) and reschedule (non-blocking) modes.
+
+# The function returns a PokeReturnValue, telling Airflow when it’s done and optionally passing data via XCom.
+
 
 import pendulum
 
