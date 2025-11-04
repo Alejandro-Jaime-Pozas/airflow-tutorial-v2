@@ -71,7 +71,6 @@ def ProcessEmployees():
             )
         conn.commit()
 
-
     @task
     def merge_data():
         query = load_sql(SQL_DIR / merge_into_employees_file)
