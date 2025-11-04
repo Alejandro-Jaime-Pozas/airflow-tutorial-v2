@@ -62,6 +62,7 @@ def tutorial_taskflow_api():
 
         print('Hello World')
         print(f"Total order value is: {total_order_value:.2f}")
+        return 'Successful load'
 
 
     # Example of using the virtualenv decorator to run a task with specific code

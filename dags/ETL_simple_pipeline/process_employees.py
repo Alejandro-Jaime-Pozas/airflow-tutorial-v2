@@ -3,14 +3,18 @@
 import datetime, pendulum
 import os
 import requests
+
 from ETL_simple_pipeline.utils import BASE_DIR, SQL_DIR, load_sql
 
 from airflow.sdk import dag, task
-from airflow.providers.postgres.hooks.postgres import PostgresHook
+from airflow.providers.postgres.hooks.postgres import PostgresHook  # this needs to be pip installed to access
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
 
+
+# This has the consolidated code from the other py files
 @dag(
     dag_id='process_employees',
+    description='Dag that processes employees data',
     schedule=None,
     start_date=pendulum.datetime(2025, 1, 1, tz='UTC'),
     catchup=False,
@@ -30,7 +34,7 @@ def ProcessEmployees():
         sql=load_sql(SQL_DIR / create_employees_table_file)
     )
 
-    # Create the stage employee table
+    # Create the stage employees table
     create_employees_temp_table = SQLExecuteQueryOperator(
         task_id='create_employees_temp_table',
         conn_id='tutorial_pg_connect',
